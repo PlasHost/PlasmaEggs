@@ -6,10 +6,11 @@
     },
     "exported_at": "2023-11-12T03:57:06+00:00",
     "name": "Waffle Connected Purpur 1.20.1",
-    "author": "admin@plasmere.net",
+    "author": "admin@plas.host",
     "description": "Waffle's optimised connected Purpur 1.20.1 autoinstall configuration.",
     "features": null,
     "docker_images": {
+        "Temurin Java 21": "ghcr.io\/software-noob\/pterodactyl-images:java_21",
         "Temurin Java 20": "ghcr.io\/software-noob\/pterodactyl-images:java_20",
         "Temurin Java 19": "ghcr.io\/software-noob\/pterodactyl-images:java_19",
         "Temurin Java 17": "ghcr.io\/software-noob\/pterodactyl-images:java_17",
