@@ -1,0 +1,77 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v2",
+        "update_url": null
+    },
+    "exported_at": "2023-12-09T05:16:01+00:00",
+    "name": "Plasma Leaf (Disconnected)",
+    "author": "admin@plasmere.net",
+    "description": "PlasHost's optimized (disconnected) Purpur pterodactyl configuration.",
+    "features": null,
+    "docker_images": {
+        "Temurin Java 20": "ghcr.io\/software-noob\/pterodactyl-images:java_20",
+        "Temurin Java 19": "ghcr.io\/software-noob\/pterodactyl-images:java_19",
+        "Temurin Java 17": "ghcr.io\/software-noob\/pterodactyl-images:java_17",
+        "Temurin Java 16": "ghcr.io\/software-noob\/pterodactyl-images:java_16",
+        "Temurin Java 11": "ghcr.io\/software-noob\/pterodactyl-images:java_11",
+        "Temurin Java 8": "ghcr.io\/software-noob\/pterodactyl-images:java_8"
+    },
+    "file_denylist": [],
+    "startup": "java -Xms$(({{SERVER_MEMORY}} - ({{SERVER_MEMORY}}\/25)))M -Xmx$(({{SERVER_MEMORY}} - ({{SERVER_MEMORY}}\/25)))M --add-modules=jdk.incubator.vector -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https:\/\/mcflags.emc.gs -Daikars.new.flags=true -jar {{SERVER_JARFILE}}",
+    "config": {
+        "files": "{\r\n    \"server.properties\": {\r\n        \"parser\": \"properties\",\r\n        \"find\": {\r\n            \"server-ip\": \"0.0.0.0\",\r\n            \"server-port\": \"{{server.build.default.port}}\"\r\n        }\r\n    },\r\n    \"spigot.yml\": {\r\n        \"parser\": \"yml\",\r\n        \"find\": {\r\n            \"settings.bungeecord\": false\r\n        }\r\n    }\r\n}",
+        "startup": "{\r\n    \"done\": \")! For help, type \",\r\n    \"userInteraction\": [\r\n        \"Go to eula.txt for more info.\"\r\n    ]\r\n}",
+        "logs": "{}",
+        "stop": "stop"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!\/bin\/ash\r\n# Leaf Server Installation Script\r\n#\r\n# Server Files: \/mnt\/server\r\n\r\nDL_PATH=\"${DL_PATH:-}\"\r\nMINECRAFT_VERSION=\"${MINECRAFT_VERSION:-}\"\r\nOVERRIDE_FILES=\"${OVERRIDE_FILES:-}\"\r\n\r\ncheck_override() {\r\n    [ \"${OVERRIDE_FILES}\" = \"1\" ] || [ \"${OVERRIDE_FILES}\" -eq 1 ]\r\n}\r\n\r\ndownload_file() {\r\n    local file_name=$1\r\n    local url=$2\r\n    if check_override || [ ! -f \"${file_name}\" ]; then\r\n        echo -e \"Downloading ${file_name}\"\r\n        if ! curl -o \"${file_name}\" \"${url}\"; then\r\n            echo \"Error downloading ${file_name}\"\r\n            exit 1\r\n        fi\r\n    fi\r\n}\r\n\r\nif [ -n \"${DL_PATH}\" ]; then\r\n    echo -e \"Using supplied download url: ${DL_PATH}\"\r\n    DOWNLOAD_URL=$(eval echo $(echo ${DL_PATH} | sed -e 's\/{{\/${\/g' -e 's\/}}\/}\/g'))\r\nelse\r\n    # Check if version exists (Modify this to match Leaf's versioning system if needed)\r\n    DOWNLOAD_URL=\"https:\/\/github.com\/Winds-Studio\/Leaf\/releases\/download\/ver-${MINECRAFT_VERSION}\/leaf-${MINECRAFT_VERSION}.jar\"\r\nfi\r\n\r\nSERVER_JARFILE=\"${SERVER_JARFILE:-leaf-${MINECRAFT_VERSION}.jar}\"\r\n\r\ncd \/mnt\/server\r\n\r\nif [ -f \"${SERVER_JARFILE}\" ]; then\r\n    mv \"${SERVER_JARFILE}\" \"${SERVER_JARFILE}.old\"\r\nfi\r\n\r\necho -e \"Downloading server jar file\"\r\nif ! curl -o \"${SERVER_JARFILE}\" \"${DOWNLOAD_URL}\"; then\r\n    echo \"Error downloading server jar file\"\r\n    exit 1\r\nfi\r\n\r\n# Download configuration files\r\ndownload_file \"server.properties\" \"https:\/\/raw.githubusercontent.com\/PlasHost\/optimised-purpur-egg\/main\/connected\/server.properties\"\r\ndownload_file \"paper-world-defaults.yml\" \"https:\/\/raw.githubusercontent.com\/PlasHost\/optimised-purpur-egg\/main\/config\/paper-world-defaults.yml\"\r\ndownload_file \"paper-global.yml\" \"https:\/\/raw.githubusercontent.com\/PlasHost\/optimised-purpur-egg\/main\/config\/paper-global.yml\"\r\ndownload_file \"pufferfish.yml\" \"https:\/\/raw.githubusercontent.com\/PlasHost\/optimised-purpur-egg\/main\/pufferfish.yml\"\r\ndownload_file \"purpur.yml\" \"https:\/\/raw.githubusercontent.com\/PlasHost\/optimised-purpur-egg\/main\/purpur.yml\"\r\ndownload_file \"spigot.yml\" \"https:\/\/raw.githubusercontent.com\/PlasHost\/optimised-purpur-egg\/main\/connected\/spigot.yml\"\r\ndownload_file \"bukkit.yml\" \"https:\/\/raw.githubusercontent.com\/PlasHost\/optimised-purpur-egg\/main\/bukkit.yml\"\r\ndownload_file \"README.txt\" \"https:\/\/raw.githubusercontent.com\/PlasHost\/optimised-purpur-egg\/main\/README.txt\"\r\ndownload_file \"eula.txt\" \"https:\/\/raw.githubusercontent.com\/PlasHost\/optimised-purpur-egg\/main\/eula.txt\"\r\n\r\necho -e \"Installation complete!\"",
+            "container": "ghcr.io\/pterodactyl\/installers:alpine",
+            "entrypoint": "ash"
+        }
+    },
+    "variables": [
+        {
+            "name": "Minecraft Version",
+            "description": "The version of minecraft to download. Will be preset to 1.20.1\r\n\r\nLeave at latest to always get the latest version. Invalid versions will default to 1.20.1.",
+            "env_variable": "MINECRAFT_VERSION",
+            "default_value": "1.20.2",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:10",
+            "field_type": "text"
+        },
+        {
+            "name": "Server Jar File",
+            "description": "The name of the server jar file to run the server with.",
+            "env_variable": "SERVER_JARFILE",
+            "default_value": "purpur.jar",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:30",
+            "field_type": "text"
+        },
+        {
+            "name": "Smart Startup",
+            "description": "Compensate for JVM overhead. Recommended.\r\n\r\nLeave as true for best stability. Invalid values will default to true.",
+            "env_variable": "SMART_STARTUP",
+            "default_value": "true",
+            "user_viewable": true,
+            "user_editable": false,
+            "rules": "required|string|max:5",
+            "field_type": "text"
+        },
+        {
+            "name": "Override Files",
+            "description": "Write over files on install? 1 = yes, 0 = no",
+            "env_variable": "OVERRIDE_FILES",
+            "default_value": "1",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|integer|max:1",
+            "field_type": "text"
+        }
+    ]
+}
