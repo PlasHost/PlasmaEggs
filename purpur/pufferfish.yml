@@ -29,20 +29,18 @@ dab:
   enabled: true
   start-distance: 12
   max-tick-freq: 20
-  activation-dist-mod: 8
+  activation-dist-mod: 7
   blacklisted-entities:
     - minecraft:villager
 inactive-goal-selector-throttle: true
 # Settings for things that don't belong elsewhere
 misc:
   disable-method-profiler: true
-  disable-out-of-order-chat: false
+  disable-out-of-order-chat: true
 flare:
   url: https://flare.airplane.gg
 web-services:
   token: ''
-# Allows end crystals to respawn the ender dragon.
-# On servers that expect end crystal fights in the end dimension, disabling this
-# will prevent the server from performing an expensive search to attempt respawning
-# the ender dragon whenever a player places an end crystal.
 allow-end-crystal-respawn: true
+enable-async-world-saving: true
+tps-catchup: true
