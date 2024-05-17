@@ -12,33 +12,35 @@
 # Discord: https://discord.gg/papermc
 # Website: https://papermc.io/
 
-_version: 28
-chunk-loading:
-  autoconfig-send-distance: true
-  enable-frustum-priority: false
-  global-max-chunk-load-rate: -1.0
-  global-max-chunk-send-rate: -1.0
-  global-max-concurrent-loads: 500.0
-  max-concurrent-sends: 2
-  min-load-radius: 2
-  player-max-chunk-load-rate: -1.0
-  player-max-concurrent-loads: 20.0
-  target-player-chunk-send-rate: 100.0
+_version: 29
+block-updates:
+  disable-chorus-plant-updates: false
+  disable-mushroom-block-updates: false
+  disable-noteblock-updates: false
+  disable-tripwire-updates: false
+chunk-loading-advanced:
+  auto-config-send-distance: true
+  player-max-concurrent-chunk-generates: 3
+  player-max-concurrent-chunk-loads: 0
+chunk-loading-basic:
+  player-max-chunk-generate-rate: -1
+  player-max-chunk-load-rate: -1
+  player-max-chunk-send-rate: 75.0
 chunk-system:
-  gen-parallelism: default
-  io-threads: -1
+  gen-parallelism: 'true'
+  io-threads: 2
   worker-threads: -1
 collisions:
-  enable-player-collisions: true
-  send-full-pos-for-hard-colliding-entities: true
+  enable-player-collisions: false
+  send-full-pos-for-hard-colliding-entities: false
 commands:
   fix-target-selector-tag-completion: true
-  suggest-player-names-when-null-tab-completions: true
+  suggest-player-names-when-null-tab-completions: false
   time-command-affects-all-worlds: false
 console:
-  enable-brigadier-completions: true
-  enable-brigadier-highlighting: true
-  has-all-permissions: false
+  enable-brigadier-completions: false
+  enable-brigadier-highlighting: false
+  has-all-permissions: true
 item-validation:
   book:
     author: 8192
@@ -46,31 +48,29 @@ item-validation:
     title: 8192
   book-size:
     page-max: 2560
-    total-multiplier: 0.98
+    total-multiplier: 0.9
   display-name: 8192
   lore-line: 8192
   resolve-selectors-in-books: false
 logging:
   deobfuscate-stacktraces: true
-  log-player-ip-addresses: true
-  use-rgb-for-named-text-colors: true
 messages:
   kick:
     authentication-servers-down: <lang:multiplayer.disconnect.authservers_down>
     connection-throttle: Connection throttled! Please wait before reconnecting.
     flying-player: <lang:multiplayer.disconnect.flying>
     flying-vehicle: <lang:multiplayer.disconnect.flying>
-  no-permission: <red>I'm sorry, but you do not have permission to perform this command.
-    Please contact the server administrators if you believe that this is in error.
-  use-display-name-in-quit-message: false
+  no-permission: <red>You do not have enough permissions to do that.
+  use-display-name-in-quit-message: true
 misc:
   chat-threads:
     chat-executor-core-size: -1
     chat-executor-max-size: -1
+  compression-level: 9
   fix-entity-position-desync: true
-  lag-compensate-block-breaking: true
+  lag-compensate-block-breaking: false
   load-permissions-yml-before-plugins: true
-  max-joins-per-tick: 5
+  max-joins-per-tick: 1
   region-file-cache-size: 256
   strict-advancement-dimension-check: false
   use-alternative-luck-formula: false
@@ -95,17 +95,17 @@ proxies:
   proxy-protocol: false
   velocity:
     enabled: false
-    online-mode: false
+    online-mode: true
     secret: ''
 scoreboards:
-  save-empty-scoreboard-teams: false
+  save-empty-scoreboard-teams: true
   track-plugin-scoreboards: false
 spam-limiter:
   incoming-packet-threshold: 300
   recipe-spam-increment: 1
   recipe-spam-limit: 20
   tab-spam-increment: 1
-  tab-spam-limit: 500
+  tab-spam-limit: 200
 timings:
   enabled: false
   hidden-config-entries:
@@ -113,18 +113,19 @@ timings:
   - proxies.velocity.secret
   history-interval: 300
   history-length: 3600
-  really-enabled: false
   server-name: Unknown Server
-  server-name-privacy: false
+  server-name-privacy: true
   url: https://timings.aikar.co/
   verbose: false
-  warn-if-enabled: true
 unsupported-settings:
-  allow-grindstone-overstacking: false
-  allow-headless-pistons: true
+  allow-headless-pistons: false
   allow-permanent-block-break-exploits: false
   allow-piston-duplication: false
   perform-username-validation: true
+  compression-format: ZLIB
+  allow-grindstone-overstacking: false
+  allow-unsafe-end-portal-teleportation: false
+  allow-tripwire-disarming-exploits: false
 watchdog:
   early-warning-delay: 180000
   early-warning-every: 5000
